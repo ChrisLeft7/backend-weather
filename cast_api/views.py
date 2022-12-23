@@ -2,10 +2,13 @@ from django.shortcuts import render
 import requests
 import os
 from dotenv import load_dotenv
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 load_dotenv()
 
 API_KEY = os.getenv('API_KEY')
+api_url = f'https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid={API_KEY}&units=imperial'
 
 # Create your views here.
 from rest_framework import generics
@@ -20,12 +23,7 @@ class ForecastDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Forecast.objects.all().order_by('city')
     serializer_class = ForecastSerializer
 
+@api_view(['GET'])
 def weather(request):
-    api_url = f'https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid={API_KEY}&units=imperial'
-    response = requests.get(api_url)
-    data = response.json()
-    json_response = json.dumps(data, indent=3)
-    print(data)
-    return render(request, "api.html", {'json_response': json_response})
-    # return JsonResponse(json_response, safe=False)
-    pass
+    data = requests.get(api_url).json()
+    return Response(data)
