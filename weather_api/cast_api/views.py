@@ -2,7 +2,9 @@ from django.shortcuts import render
 import requests
 import os
 from dotenv import load_dotenv
-
+from django.http import HttpResponse
+import json
+from django.http import JsonResponse
 load_dotenv()
 
 API_KEY = os.getenv('API_KEY')
@@ -24,5 +26,9 @@ def weather(request):
     api_url = f'https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid={API_KEY}&units=imperial'
     response = requests.get(api_url)
     data = response.json()
-
+    json_response = json.dumps(data, indent=3)
     print(data)
+    return render(request, "api.html", {'json_response': json_response})
+    # return JsonResponse(json_response, safe=False)
+    pass
+    
