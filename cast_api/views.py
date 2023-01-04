@@ -7,9 +7,6 @@ from rest_framework.decorators import api_view
 
 load_dotenv()
 
-API_KEY = os.getenv('API_KEY')
-api_url = f'https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid={API_KEY}&units=imperial'
-
 # Create your views here.
 from rest_framework import generics
 from .serializers import ForecastSerializer
@@ -24,6 +21,8 @@ class ForecastDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ForecastSerializer
 
 @api_view(['GET'])
-def weather(request):
+def weather(request, city):
+    API_KEY = os.getenv('API_KEY')
+    api_url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=imperial'
     data = requests.get(api_url).json()
     return Response(data)
