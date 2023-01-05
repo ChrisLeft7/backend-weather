@@ -13,11 +13,11 @@ from .serializers import ForecastSerializer
 from .models import Forecast
 
 class ForecastList(generics.ListCreateAPIView):
-    queryset = Forecast.objects.all().order_by('city')
+    queryset = Forecast.objects.all().order_by('id')
     serializer_class = ForecastSerializer
 
 class ForecastDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Forecast.objects.all().order_by('city')
+    queryset = Forecast.objects.all().order_by('id')
     serializer_class = ForecastSerializer
 
 @api_view(['GET'])

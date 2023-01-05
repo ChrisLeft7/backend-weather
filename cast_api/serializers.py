@@ -5,4 +5,4 @@ from rest_framework import serializers
 class ForecastSerializer(serializers.ModelSerializer):
     class Meta:
         model = Forecast
-        fields = ('id', 'city', 'state', 'notes')
+        fields = ('id', 'city', 'state', 'notes',)
